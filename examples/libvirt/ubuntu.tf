@@ -11,7 +11,6 @@ module "ubuntu" {
   source = "./terraform/libvirt/images/ubuntu/"
 }
 
-
 // Create 4 instances
 variable "count" {
   default = 4
@@ -51,7 +50,6 @@ resource "libvirt_domain" "ubuntu1804" {
   disk {
     volume_id = "${element(libvirt_volume.osd_disks.*.id, count.index)}"
   }
-
 
   # IMPORTANT
   # Ubuntu can hang if an isa-serial is not present at boot time.

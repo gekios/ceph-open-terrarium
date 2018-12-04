@@ -41,12 +41,12 @@ resource "libvirt_domain" "opensuse423" {
     network_name = "default"
   }
 
- //OS image
+  //OS image
   disk {
     volume_id = "${element(libvirt_volume.opensuse_disk.*.id, count.index)}"
   }
- 
- // DISK
+
+  // DISK
   disk {
     volume_id = "${element(libvirt_volume.osd_disks.*.id, count.index)}"
   }

@@ -33,7 +33,7 @@ resource "libvirt_domain" "debian9" {
   network_interface {
     network_name = "default"
   }
- 
+
   // OS image
   disk {
     volume_id = "${element(libvirt_volume.debian_9_disk.*.id, count.index)}"

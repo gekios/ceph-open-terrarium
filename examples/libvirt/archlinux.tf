@@ -23,7 +23,6 @@ resource "libvirt_volume" "osd_disks" {
   count  = "${var.count}"
 }
 
-
 resource "libvirt_volume" "archlinux_disk" {
   name           = "archlinux-${count.index}"
   base_volume_id = "${module.archlinux.archlinux_id}"
