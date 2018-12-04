@@ -11,26 +11,37 @@ module "debian" {
   source = "./terraform/libvirt/images/debian/"
 }
 
+// Create 4 instances
+variable "count" {
+  default = 4
+}
+
 resource "libvirt_volume" "debian_9_disk" {
   name           = "debian9-${count.index}"
   base_volume_id = "${module.debian.debian_9_id}"
   pool           = "default"
-  count          = 1
+  count          = "${var.count}"
 }
 
 resource "libvirt_domain" "debian9" {
   name      = "debian9-${count.index}"
   memory    = "1024"
   vcpu      = 1
-  count     = 1
+  count     = "${var.count}"
   cloudinit = "${module.cloudinit.cloudinit_id}"
 
   network_interface {
     network_name = "default"
   }
-
+ 
+  // OS image
   disk {
     volume_id = "${element(libvirt_volume.debian_9_disk.*.id, count.index)}"
+  }
+
+  // DISK
+  disk {
+    volume_id = "${element(libvirt_volume.osd_disks.*.id, count.index)}"
   }
 
   console {
